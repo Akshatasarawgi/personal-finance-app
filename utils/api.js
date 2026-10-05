@@ -1,7 +1,9 @@
-export async function getData() {
+const API_URL = import.meta.env.VITE_API_URL
 
+
+export async function getData() {
     try {
-        const response = await fetch("http://localhost:8000/api/allData")
+        const response = await fetch(`${API_URL}/api/allData`)
       
         if(!response.ok) {
             throw {
@@ -21,7 +23,7 @@ export async function getData() {
 
 export async function addBudgetToDb(formData) {
     try {
-        const response = await fetch("http://localhost:8000/api/addBudget", {
+        const response = await fetch(`${API_URL}/api/addBudget`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -44,7 +46,7 @@ export async function addBudgetToDb(formData) {
 export async function editExistingBudgetToDb(formData) {
 
     try {
-        const response = await fetch("http://localhost:8000/api/editBudget", {
+        const response = await fetch(`${API_URL}/api/editBudget`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -66,14 +68,14 @@ export async function editExistingBudgetToDb(formData) {
 export async function deleteBudgetFromDb(formData) {
 
     try {
-        const response = await fetch("http://localhost:8000/api/deleteBudget", {
+        const response = await fetch(`${API_URL}/api/deleteBudget`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(formData)
-    })
-    const data = response.json()
+        })
+        const data = await response.json()
         if(!response.ok) {
             throw new Error(data.error || 'Failed to delete budget')
         }
@@ -88,7 +90,7 @@ export async function deleteBudgetFromDb(formData) {
 
 export async function addPotToDb(formData) {
     try {
-        const response = await fetch("http://localhost:8000/api/addPot",{
+        const response = await fetch(`${API_URL}/api/addPot`,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -110,7 +112,7 @@ export async function addPotToDb(formData) {
 
 export async function editExistingPotToDb(formData) {
     try {
-        const response = await fetch("http://localhost:8000/api/editPot", {
+        const response = await fetch(`${API_URL}/api/editPot`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -118,10 +120,10 @@ export async function editExistingPotToDb(formData) {
             body: JSON.stringify(formData)
         })
         const data = await response.json()
+
         if(!response.ok) {
             throw new Error(data.error || 'Failed to edit pot')
-        }
-        
+        }    
     }
     catch(err) {
         console.error('Failed to add pot', err)
@@ -131,7 +133,7 @@ export async function editExistingPotToDb(formData) {
 
 export async function deletePotFromDb(formData) {
     try {
-        const response = await fetch("http://localhost:8000/api/deletePot", {
+        const response = await fetch(`${API_URL}/api/deletePot`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
