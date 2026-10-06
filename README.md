@@ -5,6 +5,9 @@
 - [Overview](#overview)
   - [Features](#features)
   - [Screenshot](#screenshot)
+  - [Links](#links)
+
+
 
 ## Overview
 The Personal Finance App lets you track your transactions, set Budgets for different categories, Edit and Delete Budgets based on your requirement. The App lets you create Pots for future expenses, add money to Pots and withdraw from it based on usage.
@@ -30,6 +33,11 @@ Users should be able to:
 
 ### Screenshot
 
+
+https://github.com/user-attachments/assets/9b6f3b4b-0b75-40f7-985b-625a14df65fa
+
+
+
 ### Links
-- Solution URL: [Add solution URL here](https://github.com/Akshatasarawgi/personal-finance-app)
-- Live Site URL: [Add live site URL here](https://personalfinancefullstack.netlify.app)
+- Solution URL: [GitHub Link](https://github.com/Akshatasarawgi/personal-finance-app)
+- Live Site URL: [personalFinanceApp](https://personalfinancefullstack.netlify.app)
