@@ -32,9 +32,13 @@ Users should be able to:
 - See hover and focus states for all interactive elements on the page
 
 ### Screenshot
+<img width="789" height="491" alt="Screenshot 2026-10-05 at 12 55 24 PM" src="https://github.com/user-attachments/assets/3254faee-169f-4076-b006-bafe70475393" />
+
+<img width="388" height="711" alt="Screenshot 2026-10-05 at 12 55 48 PM" src="https://github.com/user-attachments/assets/b95c0eb2-e124-4e30-97cc-91208b4973ef" />
+
+<img width="1201" height="786" alt="Screenshot 2026-10-05 at 12 56 14 PM" src="https://github.com/user-attachments/assets/831948ad-080b-409b-aac2-064bfa1e3082" />
 
 
-https://github.com/user-attachments/assets/9b6f3b4b-0b75-40f7-985b-625a14df65fa
 
 
 
