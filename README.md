@@ -36,7 +36,7 @@ Users should be able to:
 
 <img width="388" height="711" alt="Screenshot 2026-10-05 at 12 55 48 PM" src="https://github.com/user-attachments/assets/b95c0eb2-e124-4e30-97cc-91208b4973ef" />
 
-<img width="1201" height="786" alt="Screenshot 2026-10-05 at 12 56 14 PM" src="https://github.com/user-attachments/assets/831948ad-080b-409b-aac2-064bfa1e3082" />
+<img width="789" height="491" alt="Screenshot 2026-10-05 at 12 56 14 PM" src="https://github.com/user-attachments/assets/831948ad-080b-409b-aac2-064bfa1e3082" />
 
 
 
