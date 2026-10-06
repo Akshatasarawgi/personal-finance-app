@@ -5,9 +5,9 @@ import { handlePut } from './utils/routeHandlers/handlePut.js'
 import { handleDelete } from './utils/routeHandlers/handleDelete.js'
 import { handlePotPost } from './utils/routeHandlers/handlePotPost.js'
 import { handlePotPut } from './utils/routeHandlers/handlePotPut.js'
-import { handlePotDelete } from './utils/routeHandlers/handlePotDelete.js'
+import { handlePotDelete } from './utils/routeHandlers/handlePotDelete.js';
 
-const PORT = process.env.PORT || 8000
+const PORT = process.env.PORT || 8000;
 
 const server = http.createServer(async (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*')
