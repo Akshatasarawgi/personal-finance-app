@@ -1,5 +1,5 @@
 # Full Stack Project - Personal Finance App 
-Created a Full Stack application using React and NodeJs without the use of AI , following the old fashioned way of programming in order to practice. Used Tanstack Table for tabular display and pagination. React charts to display budgets data in the form of charts . React router for page routing. Data layer API in order to use Loaders and Actions. Responsive and SEO friendly.
+Created a Full Stack application using React and NodeJs without the use of AI , following the old fashioned way of programming in order to practice using fake data. Used Tanstack Table for tabular display and pagination. React charts to display budgets data in the form of charts . React router for page routing. Data layer API in order to use Loaders and Actions. Responsive and SEO friendly.
 
 ## Table of contents
 
