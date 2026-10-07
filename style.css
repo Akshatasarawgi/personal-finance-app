@@ -508,7 +508,7 @@ button {
     background-color: transparent;
     color: var(--grey-900);
     font-size: 1rem;
-    padding: 1% 2%;
+    padding: 0% 2%;
 }
 .page-button {
     width: 40px;
@@ -517,6 +517,10 @@ button {
     @media screen and (max-width: 430px) {
         width: 30px;
     }
+}
+.navigate-btn {
+   display: flex;
+   align-items: center;
 }
 .navigate-btn-arrow-right {
     margin-right: 10px;
@@ -1053,9 +1057,6 @@ button {
 @media screen and (max-width: 462px) {
     .navigate-btn-text {
         display: none;
-    }
-    .navigate-btn {
-        padding: 10%;
     }
     .navigate-btn-arrow-right {
         margin: 2px;
