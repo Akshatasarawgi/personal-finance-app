@@ -3,13 +3,8 @@ import { getData, addBudgetToDb, editExistingBudgetToDb, deleteBudgetFromDb } fr
 import { useLoaderData , Link, useFetcher} from 'react-router-dom'
 import {ResponsiveContainer, PieChart, Pie, Cell, Legend} from 'recharts'
 import AddBudgetModal  from '../components/AddBudgetModal.jsx'
-import EditBudgetModal from '../components/EditBudgetModal.jsx'
-import DeleteBudgetModal from '../components/DeleteBudgetModal.jsx'
 import BudgetPageCategory from "../components/BudgetPageCategory"
 import ConfirmationBudgetAdded from '../components/ConfirmationBudgetAdded.jsx'
-import ConfirmationBudgetEdited from '../components/ConfirmationBudgetEdited.jsx'
-import ConfirmationBudgetDeleted from '../components/ConfirmationBudgetDeleted.jsx'
-
 
 export async function loader() {
     return await getData()    
@@ -37,45 +32,17 @@ let data
 
 function BudgetPage() {
     const [displayAddNewBudgetModal, setDisplayAddNewBudgetModal] = React.useState(false)
-    const [displayEditBudgetModal, setDisplayEditBudgetModal] = React.useState(false)
-    const [displayDeleteBudgetModal, setDisplayDeleteBudgetModal] = React.useState(false)
     const [showAddBudgetConfirmation, setShowAddBudgetConfirmation] = React.useState(false)  
-    const [showEditedBudgetConfirmation, setShowEditedBudgetConfirmation] = React.useState(false)
-    const [showDeletedBudgetConfirmation, setShowDeletededBudgetConfirmation] = React.useState(false)
-    const [currentBudget, setCurrentBudget] = React.useState("")
     const data = useLoaderData()
     const fetcher = useFetcher()
 
     function displayAddBudgetModal() {
         setDisplayAddNewBudgetModal(true)
-        setDisplayEditBudgetModal(false)
-        setDisplayDeleteBudgetModal(false)
-    }
-
-    function displayEditExistingBudgetModal(value) {
-        setCurrentBudget(value)
-        setDisplayAddNewBudgetModal(false)
-        setDisplayEditBudgetModal(true)
-        setDisplayDeleteBudgetModal(false)   
-    }
-
-    function displayDeleteExistingBudgetModal(value) {
-        setCurrentBudget(value)
-        setDisplayAddNewBudgetModal(false)
-        setDisplayEditBudgetModal(false)
-        setDisplayDeleteBudgetModal(true)          
+     
     }
 
     function closeAddBudgetModal() {
         setDisplayAddNewBudgetModal(false)
-    }
-
-    function closeEditBudgetModal() {
-        setDisplayEditBudgetModal(false)
-    }
-   
-    function closeDeleteBudgetModal() {
-        setDisplayDeleteBudgetModal(false)
     }
 
     function submitNewAddedBudget(category, maximum, theme) {
@@ -92,49 +59,16 @@ function BudgetPage() {
             closeAddBudgetModal()
         }
 
-    function submitEditExistingBudget(category, maximum, theme) {
-        fetcher.submit(
-            {
-                category,
-                maximum,
-                theme
-            },
-            {
-                method: 'PUT'
-            }
-        )
-        closeEditBudgetModal()
-    }
-
-    function submitDeleteBudget(category, maximum, theme) {
-        fetcher.submit(
-            {
-                category,
-                maximum,
-                theme
-            },
-            {
-                method: 'DELETE'
-            }
-        )
-
-        closeDeleteBudgetModal()
-    }
+ 
 
         React.useEffect(() => {
         if(fetcher.data && fetcher.formMethod === 'POST') {
             setShowAddBudgetConfirmation(true)
         }
-        if(fetcher.data && fetcher.formMethod === 'PUT') {
-            setShowEditedBudgetConfirmation(true)
-        }
-        if(fetcher.data && fetcher.formMethod === 'DELETE') {
-            setShowDeletededBudgetConfirmation(true)
-        }
+    
         const timer = setTimeout(() => {
             setShowAddBudgetConfirmation(false)
-             setShowEditedBudgetConfirmation(false)
-            setShowDeletededBudgetConfirmation(false)
+            
         }, 5000)
         return () => clearTimeout(timer)
         
@@ -228,35 +162,6 @@ function BudgetPage() {
                 maximum={fetcher.data.maximum}/>
             }
 
-            {displayEditBudgetModal && 
-                <EditBudgetModal 
-                    currentBudget={currentBudget}
-                    assignedThemes={assignedThemes}
-                    existingBudgets={existingBudgets}  
-                    submitEditExistingBudget={submitEditExistingBudget}
-                    onClose = {() => setDisplayEditBudgetModal(false)}
-                />
-            }   
-
-            {showEditedBudgetConfirmation && 
-                <ConfirmationBudgetEdited 
-                    category={fetcher.data.category} 
-                    maximum={fetcher.data.maximum}/>                
-            }
-
-            {displayDeleteBudgetModal && 
-            <DeleteBudgetModal 
-                budgetToDelete={currentBudget}
-                submitDeleteBudget={submitDeleteBudget}
-                onClose={() => setDisplayDeleteBudgetModal(false)}
-            />
-            } 
-
-            {showDeletedBudgetConfirmation && 
-                <ConfirmationBudgetDeleted 
-                    category={fetcher.data.category} 
-                />                
-            }
 
               <div className="budget-page-container">
                 
@@ -321,9 +226,11 @@ function BudgetPage() {
                          <BudgetPageCategory 
                             key={budget.category}
                             data={data}
+                            fetcher={fetcher}
                             budget={budget}
-                            displayEditExistingBudgetModal={displayEditExistingBudgetModal}
-                            displayDeleteExistingBudgetModal={displayDeleteExistingBudgetModal}
+                            assignedThemes={assignedThemes}
+                            existingBudgets={existingBudgets}  
+                           
                         />
                     ))}
                 </div>

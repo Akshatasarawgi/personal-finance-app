@@ -3,10 +3,7 @@ import { useLoaderData, useFetcher } from 'react-router-dom'
 import { getData , addPotToDb, editExistingPotToDb, deletePotFromDb}  from '../../utils/api.js'
 import IndividualPot from "../components/IndividualPot"
 import AddPotModal from '../components/AddPotModal.jsx'
-import EditPotModal from '../components/EditPotModal.jsx'
-import DeletePotModal from "../components/DeletePotModal.jsx"
-import AddMoneyToPotModal from '../components/AddMoneyToPotModal.jsx'
-import WithdrawMoneyFromPotModal from '../components/WithdrawMoneyFromPotModal.jsx'
+
 
 export async function loader() {
     return await getData()
@@ -35,13 +32,8 @@ export async function action({ request }) {
 }
 
 function PotsPage() {
-    const [displayAddNewPottModal, setDisplayAddNewPotModal] = React.useState(false)
-    const [displayEditPotModal, setDisplayEditPotModal] = React.useState(false)
-    const [displayDeletePotModal, setDisplayDeletePotModal] = React.useState(false) 
-    const [displayAddMoneyPotModal, setDisplayAddMoneyPotModal] = React.useState(false)
-    const [displayWithdrawMoneyPotModal, setDisplayWithdrawMoneyPotModal] = React.useState(false)
-    
-    const [currentPot, setCurrentPot] = React.useState("")   
+    const [displayAddNewPottModal, setDisplayAddNewPotModal] = React.useState(false)    
+  
     const data = useLoaderData()
     const fetcher = useFetcher()
 
@@ -52,57 +44,8 @@ function PotsPage() {
         setDisplayAddNewPotModal(false)
     }
 
-    function closeEditBudgetModal() {
-        setDisplayEditPotModal(false)
-    }
-   
-    function closeDeleteBudgetModal() {
-        setDisplayDeletePotModal(false)
-    }
-
-    function closeAddMoneyToPotModal() {
-        setDisplayAddMoneyPotModal(false)
-    }
-
-    function closeWithdrawMoneyFromPotModal() {
-        setDisplayWithdrawMoneyPotModal(false)       
-    }
-
     function displayAddPotModal() {
         setDisplayAddNewPotModal(true)
-        setDisplayEditPotModal(false)
-        setDisplayDeletePotModal(false)
-    }
-
-    function displayEditExistingPotModal(value) {
-        setCurrentPot(value) 
-        setDisplayAddNewPotModal(false)
-        setDisplayEditPotModal(true)
-        setDisplayDeletePotModal(false) 
-    }
-
-    function displayDeleteExistingPotModal(value) {
-        setCurrentPot(value) 
-        setDisplayAddNewPotModal(false)
-        setDisplayEditPotModal(false)
-        setDisplayDeletePotModal(true)        
-    }
-
-    function displayAddMoneyToPotModal(value) {
-        setCurrentPot(value)
-        setDisplayAddMoneyPotModal(true)
-        setDisplayAddNewPotModal(false)
-        setDisplayEditPotModal(false)
-        setDisplayDeletePotModal(false)            
-    }
-
-    function displayWithdrawMoneyFromPotModal(value) {
-        setCurrentPot(value)
-        setDisplayWithdrawMoneyPotModal(true)
-        setDisplayAddMoneyPotModal(false)
-        setDisplayAddNewPotModal(false)
-        setDisplayEditPotModal(false)
-        setDisplayDeletePotModal(false)       
     }
 
     function submitNewAddedPot(name, target, theme, total) {
@@ -118,39 +61,6 @@ function PotsPage() {
             }
         )
         closeAddBudgetModal()
-    }
-
-    function submitEditExistingPot(name, target,total, theme) {
-        fetcher.submit(
-            {
-                name,
-                target,
-                total,
-                theme
-            },
-            {
-                method: 'PUT'
-            }
-        )
-        closeEditBudgetModal()
-        closeAddMoneyToPotModal()
-        closeWithdrawMoneyFromPotModal()
-    }
-
-    function submitDeletePot(name, target, total, theme) {
-        fetcher.submit(
-            {
-                name,
-                target,
-                total,
-                theme
-            },
-            {
-                method: 'DELETE'
-            }
-        )
-        closeDeleteBudgetModal()
-        
     }
 
     return (
@@ -176,47 +86,14 @@ function PotsPage() {
             />
             }
 
-            {displayEditPotModal && 
-            <EditPotModal 
-                submitEditExistingPot={submitEditExistingPot}
-                assignedThemes={assignedThemes}
-                currentPot={currentPot}
-                onClose={() => setDisplayEditPotModal(false)}
-            />
-            }
-
-            {displayDeletePotModal && 
-            <DeletePotModal 
-                potToDelete={currentPot}
-                submitDeletePot={submitDeletePot}
-                onClose={() => setDisplayDeletePotModal(false)}
-                />}
-
-            {displayAddMoneyPotModal &&
-            <AddMoneyToPotModal 
-                currentPot={currentPot}
-                onClose={() => setDisplayAddMoneyPotModal(false)}   
-                submitMoneyAddedToPot={submitEditExistingPot}        
-            />
-            }
-
-            {displayWithdrawMoneyPotModal && 
-            <WithdrawMoneyFromPotModal 
-                onClose={() => setDisplayWithdrawMoneyPotModal(false)}
-                submitMoneyWithdrawFromPot={submitEditExistingPot}
-                currentPot={currentPot}
-            />
-            }
 
             <div className="pots-page-container">
                 {data.pots.map(pot => 
                     <IndividualPot 
                         key={pot.name} 
                         pot={pot}
-                        displayEditExistingPotModal={displayEditExistingPotModal}
-                        displayDeleteExistingPotModal={displayDeleteExistingPotModal}
-                        displayAddMoneyToPotModal={displayAddMoneyToPotModal}
-                        displayWithdrawMoneyFromPotModal={displayWithdrawMoneyFromPotModal}
+                        assignedThemes={assignedThemes}
+                        fetcher={fetcher}
                     />)}
             </div>
 
@@ -226,17 +103,3 @@ function PotsPage() {
 }
 
 export default PotsPage
-
-/*
-       fetcher.submit(
-            {
-                name,
-                target,
-                total, 
-                theme
-            },
-            {
-                method: 'DELETE',
-            }
-    )
-*/

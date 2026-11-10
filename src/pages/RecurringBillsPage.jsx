@@ -101,11 +101,11 @@ function RecurringBillsPage() {
     
         const sortingOptions = [
         {
-            value: "date:desc",
+            value: "date:asc",
             label: "Latest"
         },
         {
-            value: "date:asc",
+            value: "date:desc",
             label: "Oldest", 
         },
         {
@@ -117,11 +117,11 @@ function RecurringBillsPage() {
             label: "Z to A" 
         },
         {
-            value: "amount:desc",
+            value: "amount:asc",
             label : "Highest"
         },
         {
-            value: "amount:asc",
+            value: "amount:desc",
             label: "Lowest"
         }
     ]

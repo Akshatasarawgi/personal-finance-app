@@ -76,20 +76,15 @@ export default function EditBudgetModal({ existingBudgets, assignedThemes, onClo
             <div className="add-budget-modal-category-section">
                 <p>Budget Category</p>
 
-                <button 
+               <input 
+                    name="budgetCategory"
                     className="budget-input-field"
-                    onClick={() => {
-                        setDisplayAddBudgetThemeDropdown(false)
-                        setDisplayAddBudgetCategoryDropdown(prev => !prev)
-                    }}
+                    type="text"   
+                    value={selectedCategory}
+                    disabled={true}
                 >
-                    { selectedCategory ? selectedCategory : 
-                    "--Select a category--"}
-                    <img 
-                        className="down-arrow"
-                        src={downArrowImage} alt="click to view options of category" />
-                </button>
-        
+                </input>
+
                 {displayAddBudgetCategoryDropDown && 
                 <div className="add-budget-category-dropdown-menu">
                 {existingCategories.map(category => (

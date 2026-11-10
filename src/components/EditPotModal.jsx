@@ -24,6 +24,7 @@ export default function EditPotModal({onClose, submitEditExistingPot, assignedTh
         setSelectedTarget(e.target.value)
     }  
 
+    console.log(currentPot)
     let listOfThemes = [
         {colorName: "Teal", color :"#277C78"},
         {colorName: "Dolphin", color: "#82C9D7"},

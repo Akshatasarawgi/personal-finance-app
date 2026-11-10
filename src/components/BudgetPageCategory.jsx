@@ -1,15 +1,91 @@
 import React from "react"
 import { Link } from "react-router-dom"
-import arrowRight from '/public/assets/icon-caret-right.svg'
+import arrowRight from '/public/assets/icon-caret-right.svg';
+import EditBudgetModal from '../components/EditBudgetModal.jsx';
+import DeleteBudgetModal from '../components/DeleteBudgetModal.jsx';
+import ConfirmationBudgetEdited from '../components/ConfirmationBudgetEdited.jsx'
+import ConfirmationBudgetDeleted from '../components/ConfirmationBudgetDeleted.jsx'
 
 export default function BudgetPageCategory({data, 
         budget, 
-        displayDeleteExistingBudgetModal,
-        displayEditExistingBudgetModal
+        fetcher,
+        assignedThemes,
+        existingBudgets 
     }) {
 
     const [displayEditDeleteDropdown, setDisplayEditDeleteDropdown] = React.useState(false)
+    const [displayEditBudgetModal, setDisplayEditBudgetModal]= React.useState(false)
+    const [displayDeleteBudgetModal, setDisplayDeleteBudgetModal] = React.useState(false)
+    const [showEditedBudgetConfirmation, setShowEditedBudgetConfirmation] = React.useState(false)
+    const [showDeletedBudgetConfirmation, setShowDeletededBudgetConfirmation] = React.useState(false)
     const dropdownRef = React.useRef(null)
+
+      function closeEditBudgetModal() {
+        setDisplayEditBudgetModal(false)
+    }
+   
+    function closeDeleteBudgetModal() {
+        setDisplayDeleteBudgetModal(false)
+    }
+
+    function setEditBudgetModal() {
+        setDisplayEditDeleteDropdown(false)
+        setDisplayEditBudgetModal(true)
+        setDisplayDeleteBudgetModal(false)
+    }
+
+    function setDeleteBudgetModal() {
+        setDisplayEditDeleteDropdown(false)
+        setDisplayDeleteBudgetModal(true)
+        setDisplayEditBudgetModal(false)
+    }
+
+       function submitEditExistingBudget(category, maximum, theme) {
+            fetcher.submit(
+                {
+                    category,
+                    maximum,
+                    theme
+                },
+                {
+                    method: 'PUT'
+                }
+            )
+            closeEditBudgetModal()
+        }
+    
+        function submitDeleteBudget(category, maximum, theme) {
+            fetcher.submit(
+                {
+                    category,
+                    maximum,
+                    theme
+                },
+                {
+                    method: 'DELETE'
+                }
+            )
+    
+            closeDeleteBudgetModal()
+        }
+
+
+        React.useEffect(() => {
+        
+                if(fetcher.data && fetcher.formMethod === 'PUT') {
+                    setShowEditedBudgetConfirmation(true)
+                }
+                if(fetcher.data && fetcher.formMethod === 'DELETE') {
+                    setShowDeletededBudgetConfirmation(true)
+                }
+                const timer = setTimeout(() => {
+                    
+                     setShowEditedBudgetConfirmation(false)
+                    setShowDeletededBudgetConfirmation(false)
+                }, 5000)
+                return () => clearTimeout(timer)
+                
+            }, [fetcher.data, fetcher.formMethod])
 
     React.useEffect(() => {
         function handleClickOutside(event) {
@@ -23,18 +99,38 @@ export default function BudgetPageCategory({data,
     },[displayEditDeleteDropdown])
 
 
-    function editBudget(value) {
-        displayEditExistingBudgetModal(value)
-        setDisplayEditDeleteDropdown(false)
-    }    
-
-    function deleteBudget(value) {
-        displayDeleteExistingBudgetModal(value)
-        setDisplayEditDeleteDropdown(false)
-    }
-
     return (
+ 
          <div className="budget-page-category-details-individual-category">
+                    {displayEditBudgetModal && 
+                        <EditBudgetModal 
+                            currentBudget={budget}
+                            assignedThemes={assignedThemes}
+                            existingBudgets={existingBudgets}  
+                            submitEditExistingBudget={submitEditExistingBudget}
+                            onClose = {() => setDisplayEditBudgetModal(false)}
+                        />
+                    } 
+
+                        {showEditedBudgetConfirmation && 
+                            <ConfirmationBudgetEdited 
+                                category={fetcher.data.category} 
+                                maximum={fetcher.data.maximum}/>                
+                        }
+
+                        {displayDeleteBudgetModal && 
+                        <DeleteBudgetModal 
+                            budgetToDelete={budget}
+                            submitDeleteBudget={submitDeleteBudget}
+                            onClose={() => setDisplayDeleteBudgetModal(false)}
+                        />
+                        } 
+                                
+                        {showDeletedBudgetConfirmation && 
+                            <ConfirmationBudgetDeleted 
+                                category={fetcher.data.category} 
+                            />                
+                        }
                         
                         <div className="details-individual-header">    
                             <div style={{display: "flex", alignItems: "center"}}>
@@ -56,12 +152,12 @@ export default function BudgetPageCategory({data,
                                         <button 
                                             
                                             className="edit-budget-btn"
-                                            onClick={() => editBudget(budget)}>
+                                           onClick={() => setEditBudgetModal()}>
                                             Edit Budget
                                         </button>
                                         <button 
                                             className="delete-budget-btn"
-                                            onClick={() => deleteBudget(budget)}>
+                                            onClick={() => setDeleteBudgetModal()}>
                                             Delete Budget
                                         </button>
                                 </div>

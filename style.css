@@ -229,23 +229,28 @@ button {
     position: relative;
     width: 100%;
 }
-.new-budget-modal{
-    position: fixed;
-    inset: 0;
-    margin: 10% auto;
+.new-budget-modal {
+    position: absolute;
+    margin: 1% auto 0%;
+    left: 10%;
     z-index: 100;
     background-color: var(--modal-Background);
     width: 80%;
-    max-width: 550px;
-    min-height: 500px;
-    height: fit-content;
+    max-width: 500px;
+    min-height: 480px;
+    height: max-content;
     box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.18);
-    padding: 3% 3%;
+    padding: 1.2% 1.5%;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     color: var(--grey-700);
+
+    @media screen and (min-width: 890px) {
+        margin: 8% auto;
+        inset: 0;
+    }
 }
 .delete-budget-modal {
     position: fixed;
@@ -1067,6 +1072,9 @@ button {
 }
 
 /* Budget Page */
+.budget-page {
+    position: relative;
+}
 .budget-page-header {
     display: flex;
     justify-content: space-between;
@@ -1157,6 +1165,7 @@ button {
     width: 100%;
 }
 .budget-page-category-details-individual-category {
+    position: relative;
     background-color: var(--white);
     margin: 0 auto 8% auto;
     border-radius: 10px;
@@ -1407,6 +1416,7 @@ button {
 
 }
 .individual-pot-container {
+    display: relative;
     width: 100%;
     background-color: var(--white);
     padding: 4%;
@@ -1415,8 +1425,9 @@ button {
     flex-direction: column;
     gap: 1rem;
     margin: 1% auto;
-  
 }
+
+
 .pots-add-withdraw-btn {
     height: 2.8rem;
     border-radius: 10px;

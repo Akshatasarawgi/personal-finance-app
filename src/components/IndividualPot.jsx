@@ -1,28 +1,75 @@
 import React from 'react'
+import EditPotModal from '../components/EditPotModal.jsx'
+import DeletePotModal from "../components/DeletePotModal.jsx"
+import AddMoneyToPotModal from '../components/AddMoneyToPotModal.jsx'
+import WithdrawMoneyFromPotModal from '../components/WithdrawMoneyFromPotModal.jsx'
 
-export default function IndividualPot({pot, displayEditExistingPotModal,displayDeleteExistingPotModal, displayAddMoneyToPotModal, displayWithdrawMoneyFromPotModal}) {
+export default function IndividualPot({pot, assignedThemes, fetcher}) {
 
     const [displayEditDeleteDropdown, setDisplayEditDeleteDropdown] = React.useState(false)
+    const [displayEditPotModal, setDisplayEditPotModal] = React.useState(false)
+    const [displayDeletePotModal, setDisplayDeletePotModal] = React.useState(false) 
+    const [displayAddMoneyPotModal, setDisplayAddMoneyPotModal] = React.useState(false)
+    const [displayWithdrawMoneyPotModal, setDisplayWithdrawMoneyPotModal] = React.useState(false)
     const dropdownRef = React.useRef(null)
 
-    function editPot(value) {
-        displayEditExistingPotModal(value)
+    function editPot() {
+        displayEditExistingPotModal()
         setDisplayEditDeleteDropdown(false)
     }    
 
-    function deletePot(value) {
-        displayDeleteExistingPotModal(value)
+    function deletePot() {
+        displayDeleteExistingPotModal()
         setDisplayEditDeleteDropdown(false)
     }
 
-    function addMoneyToPot(value) {
-        displayAddMoneyToPotModal(value)
+    function addMoneyToPot() {
+        displayAddMoneyToPotModal()
     }
 
-    function withdrawMoneyFromPot(value) {
-        displayWithdrawMoneyFromPotModal(value)
+    function withdrawMoneyFromPot() {
+        displayWithdrawMoneyFromPotModal()
     }
     
+    function closeEditBudgetModal() {
+        setDisplayEditPotModal(false)
+    }
+   
+    function closeDeleteBudgetModal() {
+        setDisplayDeletePotModal(false)
+    }
+
+    function closeAddMoneyToPotModal() {
+        setDisplayAddMoneyPotModal(false)
+    }
+
+    function closeWithdrawMoneyFromPotModal() {
+        setDisplayWithdrawMoneyPotModal(false)       
+    }
+
+    function displayEditExistingPotModal() {
+        setDisplayEditPotModal(true)
+        setDisplayDeletePotModal(false) 
+    }
+
+    function displayDeleteExistingPotModal() {
+        setDisplayEditPotModal(false)
+        setDisplayDeletePotModal(true)        
+    }
+
+    function displayAddMoneyToPotModal() {
+        setDisplayAddMoneyPotModal(true)
+        setDisplayEditPotModal(false)
+        setDisplayDeletePotModal(false)            
+    }
+
+    function displayWithdrawMoneyFromPotModal() {
+        setDisplayWithdrawMoneyPotModal(true)
+        setDisplayAddMoneyPotModal(false)
+        setDisplayEditPotModal(false)
+        setDisplayDeletePotModal(false)       
+    }
+
         React.useEffect(() => {
             function handleClickOutside(event) {
                 if(dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -34,8 +81,73 @@ export default function IndividualPot({pot, displayEditExistingPotModal,displayD
             return () => document.removeEventListener('mousedown', handleClickOutside)
         },[displayEditDeleteDropdown])
 
+        function submitEditExistingPot(name, target,total, theme) {
+            fetcher.submit(
+                {
+                    name,
+                    target,
+                    total,
+                    theme
+                },
+                {
+                    method: 'PUT'
+                }
+            )
+            closeEditBudgetModal()
+            closeAddMoneyToPotModal()
+            closeWithdrawMoneyFromPotModal()
+        }
+    
+        function submitDeletePot(name, target, total, theme) {
+            fetcher.submit(
+                {
+                    name,
+                    target,
+                    total,
+                    theme
+                },
+                {
+                    method: 'DELETE'
+                }
+            )
+            closeDeleteBudgetModal()
+            
+        }    
+
     return (
         <div className="individual-pot-container">
+
+            {displayEditPotModal && 
+            <EditPotModal 
+                submitEditExistingPot={submitEditExistingPot}
+                assignedThemes={assignedThemes}
+                currentPot={pot}
+                onClose={() => setDisplayEditPotModal(false)}
+            />
+            }
+
+            {displayDeletePotModal && 
+            <DeletePotModal 
+                potToDelete={pot}
+                submitDeletePot={submitDeletePot}
+                onClose={() => setDisplayDeletePotModal(false)}
+                />}
+
+            {displayAddMoneyPotModal &&
+            <AddMoneyToPotModal 
+                currentPot={pot}
+                onClose={() => setDisplayAddMoneyPotModal(false)}   
+                submitMoneyAddedToPot={submitEditExistingPot}        
+            />
+            }
+
+            {displayWithdrawMoneyPotModal && 
+            <WithdrawMoneyFromPotModal 
+                onClose={() => setDisplayWithdrawMoneyPotModal(false)}
+                submitMoneyWithdrawFromPot={submitEditExistingPot}
+                currentPot={pot}
+            />
+            }
             <div className="details-individual-header">
                 <div style={{display: "flex", alignItems: "center", marginBottom: "1rem"}}>
                     <div className="category-circle" style={{backgroundColor: pot.theme, marginRight: "13px"}}></div>
@@ -87,12 +199,12 @@ export default function IndividualPot({pot, displayEditExistingPotModal,displayD
 
             <div style={{width: "100%",display:"flex",justifyContent:"space-between",marginTop: "1.4rem"}}>
                 <button 
-                    onClick={() => addMoneyToPot(pot)}
+                    onClick={() => addMoneyToPot()}
                     className="pots-add-withdraw-btn"
                 >+ Add Money
                 </button>
                 <button
-                    onClick={() => withdrawMoneyFromPot(pot)} 
+                    onClick={() => withdrawMoneyFromPot()} 
                     className="pots-add-withdraw-btn"
                 >Withdraw
                 </button>
@@ -100,13 +212,3 @@ export default function IndividualPot({pot, displayEditExistingPotModal,displayD
         </div>
     )
 }
-
-/* 
-    {
-      "name": "Savings",
-      "target": 2000,
-      "total": 159,
-      "theme": "#277C78"
-    },
-
-*/
